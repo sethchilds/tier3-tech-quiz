@@ -4,9 +4,10 @@ class SessionsController < ApplicationController
 
   def create
     @user = User.find_by(username: params[:username])
+    @current_user = @user
 
-    if !!@user && @user.authenticate(params[:password])
-      session[:user_id] = @user.id
+    if !!@current_user && @current_user.authenticate(params[:password])
+      session[:user_id] = @current_user.id
       redirect_to orders_path
     else
       message = "Username or password invalid"

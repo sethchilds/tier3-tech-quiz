@@ -5,7 +5,7 @@ class UsersController < ApplicationController
 
   # GET /users or /users.json
   def index
-    redirect_to(controller: "users", action: "show", id: current_user.id)  if !is_admin?
+    redirect_to(controller: "users", action: "show", id: session[:user_id]) if !is_admin?
     @users = User.all
   end
 
