@@ -1,32 +1,58 @@
-ARG BUILD_DIRECTORY=/var/build
-ARG DEPLOY_DIRECTORY=/var/deploy
+# syntax = docker/dockerfile:1
 
-########################################################################## build
-FROM ruby:3.3.0
+# Make sure RUBY_VERSION matches the Ruby version in .ruby-version and Gemfile
+ARG RUBY_VERSION=3.3.0
+FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim as base
 
-# Re-declare relevant build arguments.
-ARG BUILD_DIRECTORY
+# Rails app lives here
+WORKDIR /rails
 
-# Copy the Gemfiles and the vendored cache to the build directory. At the time
-# this Dockerfile was written, the checked-in cache directory is the source of
-# truth for some internal Teachstone applications.
-COPY Gemfile Gemfile.lock "${BUILD_DIRECTORY}"
-COPY vendor/cache "${BUILD_DIRECTORY}/cache/"
+# Set production environment
+ENV RAILS_ENV="production" \
+    BUNDLE_DEPLOYMENT="1" \
+    BUNDLE_PATH="/usr/local/bundle" \
+    BUNDLE_WITHOUT="development"
 
-# Copy the application source, respecting .dockerignore.
-COPY --chown=teachstone:teachstone . "${DEPLOY_DIRECTORY}"
 
-# Copy the bundle from the build stage.
-COPY --from=build \
-  --chown=teachstone:teachstone \
-  "${BUILD_DIRECTORY}/bundle" \
-  "${DEPLOY_DIRECTORY}/vendor/bundle"
+# Throw-away build stage to reduce size of final image
+FROM base as build
 
-######################################################################### server
-FROM base AS server
+# Install packages needed to build gems
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y build-essential git libvips pkg-config
 
+# Install application gems
+COPY Gemfile Gemfile.lock ./
+RUN bundle install && \
+    rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git
+
+# Copy application code
+COPY . .
+
+# Precompiling assets for production without requiring secret RAILS_MASTER_KEY
+RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
+
+
+# Final stage for app image
+FROM base
+
+# Install packages needed for deployment
+RUN apt-get update -qq && \
+    apt-get install --no-install-recommends -y curl libsqlite3-0 libvips && \
+    rm -rf /var/lib/apt/lists /var/cache/apt/archives
+
+# Copy built artifacts: gems, application
+COPY --from=build /usr/local/bundle /usr/local/bundle
+COPY --from=build /rails /rails
+
+# Run and own only the runtime files as a non-root user for security
+RUN useradd rails --create-home --shell /bin/bash && \
+    chown -R rails:rails db log storage tmp
+USER rails:rails
+
+# Entrypoint prepares the database.
+ENTRYPOINT ["/rails/bin/docker-entrypoint"]
+
+# Start the server by default, this can be overwritten at runtime
 EXPOSE 3000
-
-# For the server, we do not override entrypoint. Instead, we specify a default
-# command.
-CMD [ "bundler", "exec", "puma", "-C", "config/puma.rb" ]
+CMD ["./bin/rails", "server"]
