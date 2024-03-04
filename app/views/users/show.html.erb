@@ -9,4 +9,4 @@
   <tr><td>Delete</td><td><%= button_to "Destroy this order", @user, method: :delete %></td></tr>
 </table>
 
-<div><%= link_to "Back to users", users_path %></div>
+<div><%= link_to "Back to users", users_path if is_admin? %></div>
