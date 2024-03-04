@@ -7,3 +7,13 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+CSV.foreach(Rails.root.join('db/users.csv'), headers: true) do |row|
+  User.create({
+    username:        row["username"],
+    password_digest: row["password_digest"],
+    role:            row["role"],
+    address:         row["address"],
+  })
+end
+
