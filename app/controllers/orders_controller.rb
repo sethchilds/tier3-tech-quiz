@@ -3,7 +3,7 @@ class OrdersController < ApplicationController
 
   # GET /orders or /orders.json
   def index
-    @orders = Order.all
+    @orders = is_admin? ? Order.all : Order.where(user_id: current_user.id).all
   end
 
   # GET /orders/1 or /orders/1.json

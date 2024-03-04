@@ -1,10 +1,14 @@
 <p style="color: green"><%= notice %></p>
 
 <table>
-<%= render @order %>
-  </tr>
+<table>
+  <tr><td>User</td><td><%= @order.user.username %></td></tr>
+  <tr><td>Description</td><td><%= @order.description %></td></tr>
+  <tr><td>Quantity</td><td><%= @order.quantity %></td></tr>
+  <tr><td>Total</td><td><%= @order.total %></td></tr>
+  <tr><td>Ordered on</td><td><%= @order.order_date %></td></tr>
+  <tr><td>Edit</td><td><%= link_to "Edit this order", edit_order_path(@order) %></td></tr>
+  <tr><td>Delete</td><td><%= button_to "Destroy this order", @order, method: :delete %></td></tr>
 </table>
 
-<div><%= button_to "Destroy this order", @order, method: :delete %></div>
-<div><%= link_to "Edit this order", edit_order_path(@order) %></div>
 <div><%= link_to "Back to orders", orders_path %></div>

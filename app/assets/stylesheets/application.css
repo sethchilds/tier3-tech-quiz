@@ -14,6 +14,22 @@
  *= require_self
  */
 
+footer {
+  margin-top: 10px;
+  height: 100px;
+  background-color: #DDEEFF;
+  padding: 15px;
+}
+
+body {
+  font-family: Arial;
+}
+
 table {border: display: table; border-collapse: collapse }
 td {border: 1px solid black; padding: 5px; margin: 0px; display: table-cell; }
 tr {padding: 0px; margin: 0px; }
+
+div {
+  padding: 10px;
+  align: left;
+}

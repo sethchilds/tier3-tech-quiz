@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Tier3Quiz</title>
+    <title>Tier 3 Quiz</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -11,6 +11,16 @@
   </head>
 
   <body>
+    <h3><%= link_to "Tier 3 Quiz", root_path %></h3>
+    <% flash.each do |type, msg| %>
+      <div>
+        <%= msg %>
+      </div>
+    <% end %>
     <%= yield %>
+    <footer>
+      <%= link_to("Login here", login_path) if !logged_in? %>
+      <%= link_to("Log out", :logout) if logged_in? %>
+    </footer>
   </body>
 </html>

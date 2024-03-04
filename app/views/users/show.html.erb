@@ -1,11 +1,12 @@
 <p style="color: green"><%= notice %></p>
 
 <table>
-  <%= render @user %>
-  </tr>
+  <tr><td>Username</td><td><%= @user.username %></td></tr>
+  <tr><td>Role</td><td><%= @user.role %></td></tr>
+  <tr><td>Address</td><td><%= @user.address %></td></tr>
+  <tr><td>Created at</td><td><%= @user.created_at %></td></tr>
+  <tr><td>Edit</td><td><%= link_to "Edit this user", edit_user_path(@user) %></td></tr>
+  <tr><td>Delete</td><td><%= button_to "Destroy this order", @user, method: :delete %></td></tr>
 </table>
 
-<div><%= button_to "Destroy this user", @user, method: :delete %></div>
-
-<div><%= link_to "Edit this user", edit_user_path(@user) %></div>
 <div><%= link_to "Back to users", users_path %></div>
