@@ -17,3 +17,14 @@ CSV.foreach(Rails.root.join('db/users.csv'), headers: true) do |row|
   })
 end
 
+CSV.foreach(Rails.root.join('db/orders.csv'), headers: true) do |row|
+  Order.create({
+    user_id:     User.find_by(username: row["username"]).id,
+    description: row["description"],
+    quantity:    row["quantity"],
+    total:       row["total"],
+    order_date:  DateTime.parse(row["order_date"])
+  })
+end
+
+
