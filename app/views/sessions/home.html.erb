@@ -1,9 +1,10 @@
-<h2> Landing page </h2>
+<p> Welcome, <%= current_user.username %>!</p>
 
 <% if is_admin? %>
-  <%= link_to "Orders", orders_path %>
-  <%= link_to "Users", users_path %>
+  Want to view all <%= link_to "orders", orders_path %> or all
+  <%= link_to "users", users_path %>?
 <% else %>
-  <%= link_to "Orders", orders_path(current_user) %>
-  <%= link_to "Users", users_path(current_user) %>
+  Want to view your <%= link_to "orders", orders_path(current_user) %>
+  or your 
+  <%= link_to "user information", users_path(current_user) %>?
 <% end %>
