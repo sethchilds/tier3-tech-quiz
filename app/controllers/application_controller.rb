@@ -1,6 +1,10 @@
 class ApplicationController < ActionController::Base
 
-  before_action :logged_in?
+  before_action :authenticated?
+
+  def authenticated?
+    logged_in? || redirect_to(login_url)
+  end
 
   def logged_in?
     !current_user.nil?

@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
 
-  skip_before_action :logged_in?, only: [:home, :login, :create]
+  skip_before_action :authenticated?, only: [:login, :create]
 
   def create
     @user = User.find_by(username: params[:username])

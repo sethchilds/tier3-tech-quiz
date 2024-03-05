@@ -1,3 +1,7 @@
 // Configure your import map in config/importmap.rb. Read more: https://github.com/rails/importmap-rails
-import "@hotwired/turbo-rails"
-import "controllers"
+
+function bug1() {
+  alert("Fix me! I am a bug");
+}
+
+document.addEventListener("DOMContentLoaded", bug1);
