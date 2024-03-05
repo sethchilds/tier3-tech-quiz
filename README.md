@@ -18,8 +18,7 @@ bundle exec pry -r ./config/environment
 
 ## Via Docker
 ```
-docker build -t teachstone:tier3-tech-quiz .
-docker run -v $PWD:/rails --name=t3tq --env-file ./env-for-testing-purposes -p 3000:3000 teachstone:tier3-tech-quiz
+bash ./docker-start.sh
 # Navigate to http://localhost:3000/
 ```
 
