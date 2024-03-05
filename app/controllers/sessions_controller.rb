@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
 
     if !!@current_user && @current_user.authenticate(params[:password])
       session[:user_id] = @current_user.id
-      redirect_to orders_path
+      redirect_to root_path
     else
       message = "Username or password invalid"
       redirect_to login_path, notice: message
@@ -17,7 +17,7 @@ class SessionsController < ApplicationController
 
   def destroy
     @current_user = nil
-    redirect_to login_path notice: "Successfully logged out"
+    redirect_to login_path, notice: "Successfully logged out"
   end
 
 end

@@ -14,6 +14,12 @@
  *= require_self
  */
 
+header {
+  height: 50px;
+  background-color: #DDEEFF;
+  text-align: center;
+}
+
 footer {
   margin-top: 10px;
   height: 100px;

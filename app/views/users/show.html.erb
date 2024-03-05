@@ -5,8 +5,12 @@
   <tr><td>Role</td><td><%= @user.role %></td></tr>
   <tr><td>Address</td><td><%= @user.address %></td></tr>
   <tr><td>Created at</td><td><%= @user.created_at %></td></tr>
-  <tr><td>Edit</td><td><%= link_to "Edit this user", edit_user_path(@user) %></td></tr>
-  <tr><td>Delete</td><td><%= button_to "Destroy this order", @user, method: :delete %></td></tr>
+  <tr><td>Edit</td><td><%= link_to "Edit", edit_user_path(@user) %></td></tr>
+
+  <% if is_admin? %>
+  <tr><td>Delete</td><td><%= button_to "Delete #{@user.username}", @user, method: :delete %></td></tr>
+  <% end %>
+
 </table>
 
 <div><%= link_to "Back to users", users_path if is_admin? %></div>

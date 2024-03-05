@@ -23,7 +23,11 @@
 
   <div>
     <%= form.label :role, style: "display: block" %>
-    <%= form.text_field :role %>
+    <% if is_admin? %>
+      <%= form.text_field :role %>
+    <% else %>
+      <%= current_user.role %>
+    <% end %>
   </div>
 
   <div>
