@@ -2,9 +2,12 @@
 
 To get started:
 
-## On your local computer
+## On your local Mac
 
 ```
+brew install rvm
+rvm install ruby-3.3.0
+rvm use ruby-3.3.0
 bundle install
 bundle exec rake db:refresh
 bundle exec rails server
