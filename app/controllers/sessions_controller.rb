@@ -2,6 +2,7 @@ class SessionsController < ApplicationController
 
   skip_before_action :authenticated?, only: [:login, :create]
 
+  # Login
   def create
     @user = User.find_by(username: params[:username])
     @current_user = @user
@@ -15,9 +16,10 @@ class SessionsController < ApplicationController
     end
   end
 
+  # Logout
   def destroy
     @current_user = nil
-    session.delete(:user_id)
+    session.delete(:user_iid)
     redirect_to login_path, notice: "Successfully logged out"
   end
 
