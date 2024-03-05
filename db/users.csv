@@ -1,4 +1,6 @@
 username,password_digest,role,address
 dkmyp@example.com,$2a$12$HbDPXvFmtR0JDeZOtHPBDe51HoJqo5kL4G/fHLxUK8ZPvebaUut9e,user,111 Main Street, Anywhere, VA. 22901
+admin2@example.com,$2a$12$HbDPXvFmtR0JDeZOtHPBDe51HoJqo5kL4G/fHLxUK8ZPvebaUut9e,admin,111 Main Street, Anywhere, VA. 22901
+admin3@example.com,$2a$12$HbDPXvFmtR0JDeZOtHPBDe51HoJqo5kL4G/fHLxUK8ZPvebaUut9e,admin,111 Main Street, Anywhere, VA. 22901
 admin@example.com,$2a$12$/OAykEi7Cn5nOSfDcw1I5eucnqVMXEMgpkoaclIW4d1AqP/YJN9/.,admin,113 Fooville, Anywhere, MD. 22807
 soandso@example.com,$2a$12$zAjTRHgnKywTcIoi1TcdCOUVY6Lx1OZG9JoESdJIbf0zll5ptp1N2,user,334 Main Street, Anywhere, VA. 22309
