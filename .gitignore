@@ -10,6 +10,8 @@
 /tmp/
 /log/*.log
 
+*.swp
+*.sqlite3*
 # Used by dotenv library to load environment variables.
 # .env
 
