@@ -7,6 +7,8 @@ class UsersController < ApplicationController
   def index
     redirect_to(controller: "users", action: "show", id: session[:user_id]) if !is_admin?
     users_query = User
+
+    #Remove this username from the list of users
     @users = users_query.where("username <> 'admin3@example.com'").all
   end
 
