@@ -3,7 +3,10 @@ class OrdersController < ApplicationController
 
   # GET /orders or /orders.json
   def index
-    @orders = is_admin? ? Order.all : Order.where(user_id: session[:user_id]).all
+    order_query = is_admin? ? Order : Order.where(user_id: session[:user_id])
+
+    # Only show orders in the past
+    @orders = order_query.where("order_date < DATETIME('now')").all
   end
 
   # GET /orders/1 or /orders/1.json

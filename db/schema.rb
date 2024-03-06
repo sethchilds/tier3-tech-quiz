@@ -16,7 +16,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_04_155503) do
     t.string "description"
     t.integer "quantity"
     t.float "total"
-    t.date "order_date"
+    t.datetime "order_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_orders_on_user_id"

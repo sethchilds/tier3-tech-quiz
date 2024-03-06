@@ -14,6 +14,7 @@ class SessionsController < ApplicationController
       message = "Username or password invalid"
       redirect_to login_path, notice: message
     end
+
   end
 
   # Logout
