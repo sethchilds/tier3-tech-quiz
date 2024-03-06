@@ -5,4 +5,8 @@
 <br>
 
 <div><%= link_to "Show this user", @user %></div>
-<div><%= link_to "Back to users", users_path %></div>
+
+<% if (@current_user = is_admin?) %>
+  <div><%= link_to "Back to users", users_path %></div>
+<% end %>
+
