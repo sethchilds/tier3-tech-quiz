@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Clean out temporary files from bind mount and logs
+rm -rf ./tmp/* ./log/*
+
 # Remove previous container if exists
 docker ps -a | fgrep t3 | awk '{print $1}' | xargs docker rm
 
