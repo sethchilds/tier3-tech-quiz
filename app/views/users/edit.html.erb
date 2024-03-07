@@ -6,7 +6,6 @@
 
 <div><%= link_to "Show this user", @user %></div>
 
-<% if (@current_user = is_admin?) %>
+<% if (is_admin?) %>
   <div><%= link_to "Back to users", users_path %></div>
 <% end %>
-
