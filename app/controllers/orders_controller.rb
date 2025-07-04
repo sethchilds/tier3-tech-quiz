@@ -5,8 +5,7 @@ class OrdersController < ApplicationController
   def index
     order_query = is_admin? ? Order : Order.where(user_id: session[:user_id])
 
-    # Only show orders in the past
-    @orders = order_query.where("order_date < DATETIME('now')").all
+    @orders = order_query.all
   end
 
   # GET /orders/1 or /orders/1.json
@@ -25,6 +24,7 @@ class OrdersController < ApplicationController
   # POST /orders or /orders.json
   def create
     @order = Order.new(order_params)
+    @order.user_id = session[:user_id] unless is_admin?
 
     respond_to do |format|
       if @order.save
@@ -64,10 +64,15 @@ class OrdersController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_order
       @order = Order.find(params[:id])
+      unless is_admin? || @order.user_id == session[:user_id]
+        redirect_to orders_path, notice: "Access denied"
+      end
     end
 
     # Only allow a list of trusted parameters through.
     def order_params
-      params.require(:order).permit(:user_id, :description, :quantity, :total, :order_date)
+      permitted = [:description, :quantity, :total, :order_date]
+      permitted << :user_id if is_admin? # Only allow setting user_id if admin
+      params.require(:order).permit(permitted)
     end
 end

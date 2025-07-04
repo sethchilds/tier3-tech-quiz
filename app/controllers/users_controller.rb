@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
 
   before_action :set_user, only: %i[ show edit update destroy ]
+  before_action :require_admin, only: [:new, :create, :destroy]
 
 
   # GET /users or /users.json
@@ -8,7 +9,7 @@ class UsersController < ApplicationController
     redirect_to(controller: "users", action: "show", id: session[:user_id]) if !is_admin?
 
     #Remove this username from the list of users
-    @users = User.where("username <> 'admin3@example.com'").all
+    @users = User.all
   end
 
   # GET /users/1 or /users/1.json
@@ -63,13 +64,24 @@ class UsersController < ApplicationController
   end
 
   private
+
+     # Only allow admins to perform certain actions
+    def require_admin
+      redirect_to root_path, notice: "Access denied" unless is_admin?
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_user
       @user = User.find(params[:id])
+      unless is_admin? || @user.id == session[:user_id]
+        redirect_to root_path, notice: "Access denied"
+      end
     end
 
     # Only allow a list of trusted parameters through.
     def user_params
-      params.require(:user).permit(:username, :password, :role, :address)
+      permitted = [:username, :password, :address]
+      permitted << :role if is_admin? # Only admins can set/change role
+      params.require(:user).permit(permitted)
     end
 end
